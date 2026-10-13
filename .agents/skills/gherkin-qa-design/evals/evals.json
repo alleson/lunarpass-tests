@@ -1,0 +1,42 @@
+{
+  "skill_name": "gherkin-qa-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Preciso dos cenários Gherkin para esta história: Como cliente, eu quero recuperar minha senha por e-mail para voltar a acessar minha conta. Critérios: recebo um e-mail com um link para redefinir a senha; o link expira; a nova senha precisa seguir a política de senhas; se o e-mail não estiver cadastrado, não posso descobrir isso.",
+      "expected_output": "Análise separando regras explícitas, deriváveis e a investigar (prazo de expiração, política de senha não definidos); variantes exploradas (link expirado, link já usado, e-mail não cadastrado, senha fora da política); cenários declarativos em primeira pessoa; perguntas sobre prazo de expiração e política de senha, sem inventar valores.",
+      "assertions": [
+        "Não inventa o prazo de expiração do link nem os critérios da política de senha",
+        "Registra prazo e política de senha como dúvidas para os Três Amigos",
+        "Ações do usuário aparecem no Quando, nunca no Dado",
+        "Cenários em primeira pessoa e sem menção a botões, campos ou URLs",
+        "Cobre link expirado e e-mail não cadastrado como exceções",
+        "Saída em Markdown puro, sem blocos de código"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Ticket: 'Desenvolver tela de transferência entre contas. O usuário informa a conta destino e o valor e clica em Transferir. Validar saldo.' Escreve os cenários pra mim.",
+      "expected_output": "Reconhece que o ticket é técnico e vago; extrai a regra de negócio por trás (transferir só com saldo suficiente); lista muitas lacunas (limite por transação, horários, conta inexistente, mesmo titular, taxas, valor igual ao saldo); escreve poucos cenários seguros e move o restante para perguntas.",
+      "assertions": [
+        "Ignora o mecanismo de tela (clicar em Transferir) e escreve no nível do negócio",
+        "Não afirma comportamento para valor exatamente igual ao saldo sem regra definida",
+        "Lista pelo menos quatro lacunas relevantes como perguntas",
+        "Cenários de saldo suficiente e saldo insuficiente estão presentes",
+        "Sinaliza hipóteses de forma explícita"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Regra de frete grátis: pedidos acima de R$ 150 para as regiões Sul e Sudeste têm frete grátis, exceto produtos volumosos. Clientes Premium têm frete grátis em qualquer região a partir de R$ 100. Faz a especificação por exemplos.",
+      "expected_output": "Aplica tabela de decisão (valor, região, volumoso, Premium) e valores-limite; identifica ambiguidades (acima de inclui R$ 150 exato? 'exceto volumosos' vale para Premium? soma do pedido inclui o volumoso?); usa Esquema do Cenário quando houver várias linhas do mesmo comportamento; descarta combinações redundantes com justificativa.",
+      "assertions": [
+        "Identifica a ambiguidade de 'acima de' no limite de R$ 150 e a trata como pergunta",
+        "Identifica a dúvida sobre produto volumoso para cliente Premium",
+        "Usa tabela de decisão ou esquema de exemplos de forma enxuta",
+        "Não inventa regra para regiões Norte, Nordeste e Centro-Oeste para clientes não Premium",
+        "Registra variantes descartadas com motivo"
+      ]
+    }
+  ]
+}
