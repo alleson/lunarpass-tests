@@ -1,0 +1,39 @@
+{
+  "skill_name": "qa-test-executor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Execute este cenário na aplicação:\n\nCenário: Aplicar um cupom válido\nDado que meu carrinho tem R$ 200 em produtos\nQuando eu aplico um cupom válido de 10% de desconto\nEntão eu devo ver o desconto de R$ 20 no resumo do carrinho\nE o total da minha compra deve ser R$ 180",
+      "expected_output": "Executa pelo Playwright MCP em Chrome com janela visível, valida desconto e total observados, salva PNGs em output/<cenario>/, fecha a aba, confirma o fechamento e emite o relatório no formato definido.",
+      "assertions": [
+        "Usa somente ferramentas do Playwright MCP para interagir com a aplicação",
+        "Valida o desconto e o total observados na tela antes de aprovar",
+        "Salva evidências em PNG dentro de output/ com nome do cenário",
+        "Fecha a aba e confirma o fechamento antes de emitir o relatório",
+        "O relatório contém status, data e hora de início, duração, evidências e encerramento do navegador"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Roda esse teste: Dado que eu sou um cliente Premium. Quando eu finalizo um pedido de R$ 120 para a região Norte. Então o frete deve ser grátis.",
+      "expected_output": "Não há como obter um cliente Premium nem como saber o comportamento esperado além do que está escrito. Executa o que for possível, registra a limitação sobre a pré-condição Premium e classifica como Bloqueado se não puder estabelecê-la, sem inventar dados e fechando a aba.",
+      "assertions": [
+        "Não inventa credenciais, perfil ou massa de dados",
+        "Registra a pré-condição como limitação em vez de presumir",
+        "Classifica como Bloqueado quando a pré-condição não pode ser estabelecida pela interface",
+        "Fecha a aba se tiver chegado a abri-la e informa o resultado do fechamento"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Execute o cenário: Aplicar um cupom expirado. Dado que meu carrinho tem R$ 200 em produtos. Quando eu aplico um cupom que já expirou. Então eu devo ser informado de que o cupom está fora do prazo de validade. E o total da minha compra deve continuar R$ 200. (A aplicação está parada e o localhost:3000 não responde.)",
+      "expected_output": "Detecta que a aplicação está indisponível, classifica como Bloqueado, informa o motivo, não usa curl nem outra ferramenta para contornar, fecha a aba aberta e emite o relatório.",
+      "assertions": [
+        "Classifica como Bloqueado e informa que a aplicação está indisponível",
+        "Não usa curl, scripts ou outras ferramentas para interagir com a aplicação",
+        "Tenta fechar a aba pelo Playwright MCP mesmo com o bloqueio",
+        "Emite o relatório sem declarar sucesso"
+      ]
+    }
+  ]
+}
