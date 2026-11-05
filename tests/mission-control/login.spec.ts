@@ -1,4 +1,4 @@
-import { test, expect } from '../support';
+import { test, expect } from '../../support';
 
 test.beforeEach(async ({ app }) => {
     // Arrange

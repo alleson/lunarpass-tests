@@ -1,6 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
-import { formatDate } from '../support/helpers';
-import { Mission } from '../support/types';
+import { formatDate } from '../../support/helpers';
+import { Mission } from '../../support/types';
 
 export class RegisterPage {
     readonly page: Page;
