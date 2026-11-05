@@ -1,34 +1,22 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support';
 import { faker } from '@faker-js/faker';
-import { Navbar } from '../pages/components/navbar';
-import { DashPage } from '../pages/dash.page';
-import { LoginPage } from '../pages/login.page';
-import { RegisterPage } from '../pages/register.page';
-import { Toast } from '../pages/components/toast';
+
+import { Mission } from '../support/types';
+
 import { cleanMission, cleanAndInsertMission } from '../support/db';
 
-let loginPage: LoginPage;
-let navbar: Navbar;
-let dashPage: DashPage;
-let registerPage: RegisterPage;
-let toast: Toast;
 
-test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    navbar = new Navbar(page);
-    dashPage = new DashPage(page);
-    registerPage = new RegisterPage(page);
-    toast = new Toast(page);
 
+test.beforeEach(async ({ app }) => {
     // Arrange
-    await loginPage.go();
-    await loginPage.login('buzz@lunarpass.dev', 'pwd123');
-    await expect(navbar.logout).toBeVisible();
+    await app.loginPage.go();
+    await app.loginPage.login('buzz@lunarpass.dev', 'pwd123');
+    await expect(app.navbar.logout).toBeVisible();
 
 });
 
-test('deve cadastrar uma nova missão', async ({ page }) => {
-    const mission = {
+test('deve cadastrar uma nova missão', async ({ app }) => {
+    const mission: Mission = {
         id: 'LP-0128A',
         rocket: 'Starship',
         baseId: 'aurora',
@@ -39,15 +27,15 @@ test('deve cadastrar uma nova missão', async ({ page }) => {
 
     await cleanMission(mission);
 
-    await dashPage.addButton.click();
-    await expect(registerPage.title).toBeVisible();
-    await registerPage.submit(mission);
+    await app.dashPage.addButton.click();
+    await expect(app.registerPage.title).toBeVisible();
+    await app.registerPage.submit(mission);
 
-    await expect(toast.message).toContainText('A nova missão foi adicionada ao catálogo e já está disponível para reservas.');
+    await expect(app.toast.message).toContainText('A nova missão foi adicionada ao catálogo e já está disponível para reservas.');
 });
 
-test('não deve cadastrar uma nova missão com ID de missão inválido', async ({ page }) => {
-    const mission = {
+test('não deve cadastrar uma nova missão com ID de missão inválido', async ({ app }) => {
+    const mission: Mission = {
         id: faker.string.alphanumeric({ length: { min: 5, max: 5 }, casing: 'upper' }),
         rocket: 'Starship',
         baseId: 'aurora',
@@ -56,16 +44,16 @@ test('não deve cadastrar uma nova missão com ID de missão inválido', async (
         price: 1000.00,
     };
 
-    await dashPage.addButton.click();
-    await expect(registerPage.title).toBeVisible();
-    await registerPage.submit(mission);
+    await app.dashPage.addButton.click();
+    await expect(app.registerPage.title).toBeVisible();
+    await app.registerPage.submit(mission);
 
-    await expect(registerPage.alert).toHaveText('Use o formato LP-0000');
+    await expect(app.registerPage.alert).toHaveText('Use o formato LP-0000');
 });
 
-test('não deve cadastrar uma nova missão com ID de missão duplicado', async ({ page }) => {
+test('não deve cadastrar uma nova missão com ID de missão duplicado', async ({ app }) => {
     // Arrange
-    const mission = {
+    const mission: Mission = {
         id: 'LP-3001A',
         rocket: 'Starship',
         baseId: 'orion',
@@ -77,10 +65,10 @@ test('não deve cadastrar uma nova missão com ID de missão duplicado', async (
     await cleanAndInsertMission(mission);
 
     // Act
-    await dashPage.addButton.click();
-    await expect(registerPage.title).toBeVisible();
-    await registerPage.submit(mission);
+    await app.dashPage.addButton.click();
+    await expect(app.registerPage.title).toBeVisible();
+    await app.registerPage.submit(mission);
 
     // Assert
-    await expect(registerPage.alert).toHaveText('Já existe uma missão com este ID.');
+    await expect(app.registerPage.alert).toHaveText('Já existe uma missão com este ID.');
 });
