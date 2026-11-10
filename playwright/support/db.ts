@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 import { Kysely, PostgresDialect, CamelCasePlugin } from 'kysely'
 
-import { Mission, Reservation, Ticket } from '../support/types';
+import { Mission, Reservation, Ticket } from './types';
 
 interface Database {
     missions: Mission,

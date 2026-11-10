@@ -1,0 +1,42 @@
+{
+  "skill_name": "qa-test-automation",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Automatiza este cenário do Storefront do Lunar Pass:\n\nContexto:\nDado que o catálogo de missões da Lunar Pass está disponível\n\nCenário: Buscar missões filtrando por uma base específica\nDado que existe uma missão programada para a Base Lunar Alpha\nQuando eu aplico o filtro pela Base Lunar Alpha\nEntão a lista exibe a missão com destino à Base Lunar Alpha\nE o resumo indica os filtros ativos para a Base Lunar Alpha",
+      "expected_output": "Lê a arquitetura do Lunar Pass (docs/arquitetura.md e docs/aderencia.md), descobre a tela com o Playwright MCP, cria ou estende o Page Object em playwright/support/pages/storefront/ e registra em store no createApp da fixture (playwright/support/index.ts), prepara a missão com ID exclusivo (LP-XXXX) via Kysely em db.ts e garante limpeza no afterEach, escreve o spec em playwright/e2e/storefront/ sem asserções por contagem total da lista compartilhada, executa com o project storefront e emite o resumo.",
+      "assertions": [
+        "Respeita a arquitetura PCOM do Lunar Pass (pasta playwright/support/pages/storefront/ e fixture app.store)",
+        "O teste importa test e expect de support e não instancia classes de página com new",
+        "A missão de teste possui ID exclusivo no formato LP-XXXX e é semeada via Kysely em db.ts",
+        "A limpeza da massa no banco é garantida com cleanMission no afterEach",
+        "No Storefront, não valida a lista por contagem total (sem toHaveCount nem first/nth posicional)",
+        "Os seletores utilizam a ordem de acessibilidade e atributos funcionais semânticos (sem XPath nem classes CSS)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Automatiza este cenário do Mission Control do Lunar Pass:\n\nContexto:\nDado que estou autenticado no Mission Control\n\nCenário: Programar uma nova missão para a base Aurora\nQuando eu preencho os dados válidos da missão com foguete 'Starship'\nE confirmo o cadastro\nEntão a nova missão é adicionada com sucesso ao catálogo",
+      "expected_output": "Identifica que o cenário pertence ao módulo mission-control, reutiliza a autenticação com buzz@lunarpass.dev no beforeEach, utiliza app.mission.dashPage e app.mission.registerPage já existentes ou os estende se necessário, garante ID exclusivo (LP-XXXX), limpa o banco com cleanMission, valida a mensagem de confirmação via app.toast.message, executa no project mission-control e entrega o resumo.",
+      "assertions": [
+        "Identifica o módulo mission-control e consome app.mission da fixture",
+        "Reutiliza as credenciais existentes (buzz@lunarpass.dev / pwd123)",
+        "Utiliza app.toast para verificar a mensagem flutuante de sucesso",
+        "Garante a limpeza prévia da missão via cleanMission",
+        "Executa com npx playwright test --project=mission-control"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Automatiza o cenário 'Reservar assentos na cabine do foguete'. (A aplicação local em http://localhost:3000 está fora do ar e não responde.)",
+      "expected_output": "Detecta que a aplicação está indisponível ao tentar a descoberta de tela pelo Playwright MCP, não inventa elementos de tela, locators nem dados especulativos, reporta a indisponibilidade de ambiente como impedimento, classifica o teste como não executado e não declara aprovação.",
+      "assertions": [
+        "Detecta e reporta que a aplicação local em http://localhost:3000 não respondeu",
+        "Não inventa locators nem códigos de páginas que não pôde inspecionar",
+        "Não declara falsamente que o teste passou",
+        "Apresenta o resumo marcando o resultado como 'não executado' devido ao ambiente indisponível",
+        "Não altera portas, URLs nem configurações mestre do Playwright para forçar execução"
+      ]
+    }
+  ]
+}

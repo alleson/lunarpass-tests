@@ -1,13 +1,13 @@
 import { test as base, expect, Page } from '@playwright/test'
 
-import { LoginPage } from '../pages/mission-control/login.page'
-import { DashPage } from '../pages/mission-control/dash.page'
-import { RegisterPage } from '../pages/mission-control/register.page'
-import { Navbar } from '../pages/mission-control/navbar'
+import { LoginPage } from './pages/mission-control/login.page'
+import { DashPage } from './pages/mission-control/dash.page'
+import { RegisterPage } from './pages/mission-control/register.page'
+import { Navbar } from './pages/mission-control/navbar'
 
-import { HomePage } from '../pages/storefront/home.page'
+import { HomePage } from './pages/storefront/home.page'
 
-import { Toast } from '../pages/shared/toast'
+import { Toast } from './pages/shared/toast'
 
 const createApp = (page: Page) => ({
   mission: {
